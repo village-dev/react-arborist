@@ -4,12 +4,12 @@
     "./packages/*"
   ],
   "scripts": {
-    "bump": "yarn workspace react-arborist version",
+    "bump": "yarn workspace react-arborist-nokeys version",
     "start:showcase": "yarn workspace showcase dev",
-    "start:library": "yarn workspace react-arborist watch",
+    "start:library": "yarn workspace react-arborist-nokeys watch",
     "start": "run-p 'start:**'",
-    "build": "yarn workspace react-arborist build",
-    "watch": "yarn workspace react-arborist watch",
+    "build": "yarn workspace react-arborist-nokeys build",
+    "watch": "yarn workspace react-arborist-nokeys watch",
     "build:showcase": "yarn build && yarn workspace showcase build"
   },
   "private": true,

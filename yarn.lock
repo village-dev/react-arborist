@@ -6444,9 +6444,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-arborist@workspace:^, react-arborist@workspace:packages/react-arborist":
+"react-arborist-nokeys@workspace:^, react-arborist-nokeys@workspace:packages/react-arborist":
   version: 0.0.0-use.local
-  resolution: "react-arborist@workspace:packages/react-arborist"
+  resolution: "react-arborist-nokeys@workspace:packages/react-arborist"
   dependencies:
     "@parcel/core": ^2.3.2
     "@types/jest": ^27.4.1
@@ -6890,7 +6890,7 @@ __metadata:
     nanoid: ^4.0.0
     next: ^12.3.1
     react: ^18.2.0
-    react-arborist: "workspace:^"
+    react-arborist-nokeys: "workspace:^"
     react-dom: ^18.2.0
     react-icons: ^4.6.0
     tree-model-improved: ^2.0.1
