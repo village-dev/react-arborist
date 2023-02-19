@@ -19,6 +19,7 @@ import { initialState } from "../state/initial";
 import { rootReducer, RootState } from "../state/root-reducer";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+import {BackendFactory} from "dnd-core"
 import { TreeProps } from "../types/tree-props";
 import { createStore, Store } from "redux";
 import { actions as visibility } from "../state/open-slice";
@@ -30,6 +31,40 @@ type Props<T> = {
 };
 
 const SERVER_STATE = initialState();
+
+function shouldIgnoreTarget(domNode: HTMLElement) {
+  return Boolean(
+    domNode.closest?.(".ProseMirror")
+  );
+}
+// Prevent react-dnd from messing with prosemirror dnd. see: https://github.com/react-dnd/react-dnd-html5-backend/issues/7
+function ModifiedHTML5Backend(...args: any) {
+  // @ts-ignore
+  const instance = new HTML5Backend(...args);
+
+  const listeners = [
+    "handleTopDragStart",
+    "handleTopDragStartCapture",
+    "handleTopDragEndCapture",
+    "handleTopDragEnter",
+    "handleTopDragEnterCapture",
+    "handleTopDragLeaveCapture",
+    "handleTopDragOver",
+    "handleTopDragOverCapture",
+    "handleTopDrop",
+    "handleTopDropCapture",
+  ];
+  listeners.forEach((name) => {
+    const original = instance[name];
+    instance[name] = (e: any, ...extraArgs: any) => {
+      if (!shouldIgnoreTarget(e.target)) {
+        original(e, ...extraArgs);
+      }
+    };
+  });
+
+  return instance;
+}
 
 export function TreeProvider<T>({
   treeProps,
@@ -84,7 +119,7 @@ export function TreeProvider<T>({
         <NodesContext.Provider value={state.nodes}>
           <DndContext.Provider value={state.dnd}>
             <DndProvider
-              backend={HTML5Backend}
+              backend={ModifiedHTML5Backend}
               options={{ rootElement: api.props.dndRootElement || undefined }}
             >
               {children}
